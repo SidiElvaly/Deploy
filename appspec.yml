@@ -1,0 +1,20 @@
+version: 0.0
+os: linux
+
+files:
+  - source: /
+    destination: /var/www/your-app
+    overwrite: true
+
+hooks:
+  BeforeInstall:
+    - location: deploy/scripts/before_install.sh
+      runas: root
+
+  AfterInstall:
+    - location: deploy/scripts/after_install.sh
+      runas: root
+
+  ApplicationStart:
+    - location: deploy/scripts/application_start.sh
+      runas: root

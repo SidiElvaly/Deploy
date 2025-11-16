@@ -1,0 +1,14 @@
+[Unit]
+Description=Gunicorn service for your-app
+After=network.target
+
+[Service]
+User=ec2-user
+Group=ec2-user
+WorkingDirectory=/var/www/your-app/backend
+Environment="DJANGO_SETTINGS_MODULE=core.settings"
+ExecStart=/var/www/your-app/venv/bin/gunicorn core.wsgi:application --bind 0.0.0.0:8000
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
