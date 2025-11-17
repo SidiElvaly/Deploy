@@ -16,7 +16,7 @@ phases:
       - cd ..
   pre_build:
     commands:
-      - echo "=== Skipping backend and frontend tests in CI ==="
+      - echo "=== Skipping tests in CI ==="
   build:
     commands:
       - echo "=== Build React frontend ==="
@@ -24,9 +24,21 @@ phases:
       - npm run build
       - cd ..
 
-      - echo "=== Copy React build into Django static/frontend ==="
-      - mkdir -p backend/static/frontend
-      - cp -r frontend/build/* backend/static/frontend/
+      - echo "=== Prepare Django static for React ==="
+      - rm -rf backend/static/*
+      - mkdir -p backend/static/js backend/static/css backend/static/media
+
+      # JS / CSS / media from CRA build
+      - cp -r frontend/build/static/js/* backend/static/js/ || true
+      - cp -r frontend/build/static/css/* backend/static/css/ || true
+      - cp -r frontend/build/static/media/* backend/static/media/ || true
+
+      # Root HTML + misc files
+      - cp frontend/build/index.html backend/static/index.html
+      - cp frontend/build/asset-manifest.json backend/static/asset-manifest.json || true
+      - cp frontend/build/favicon.ico backend/static/favicon.ico || true
+      - cp frontend/build/manifest.json backend/static/manifest.json || true
+      - cp frontend/build/robots.txt backend/static/robots.txt || true
 
       - echo "=== Collect Django static files ==="
       - cd backend
