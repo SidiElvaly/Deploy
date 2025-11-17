@@ -6,4 +6,4 @@ from rest_framework.response import Response
 
 @api_view(["GET"])
 def hello(request):
-    return Response({"message": "Hello from Django API!"})
+    return Response({"message": "Hello from Django API! Sidi El Valy"})
